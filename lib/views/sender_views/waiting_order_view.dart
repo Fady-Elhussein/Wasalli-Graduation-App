@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wasili/const/const.dart';
-import 'package:wasili/cubit/sender_cubits/delet_order/cubit/delet_order_cubit.dart';
+import 'package:wasili/cubit/sender_cubits/delete_order/cubit/delete_order_cubit.dart';
 import 'package:wasili/cubit/sender_cubits/watting_order/watting_order_cubit.dart';
 import 'package:wasili/cubit/sender_cubits/watting_order/watting_order_state.dart';
-import 'package:wasili/views/delivery_views/order_details_view.dart';
 import 'package:wasili/widgets/Delivery_widgets/cards.dart';
 import 'package:wasili/widgets/loading_animation_widget.dart';
 
@@ -55,7 +54,7 @@ class WaitingOrderView extends StatelessWidget {
       body: BlocConsumer<WattingOrderCubit, WattingOrderStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          if (state is WattingOrderInitialState ||
+          if (wattingOrderCubitObject.waitingOrderModel == null &&
               state is WattingOrderLoadingState) {
             return const LoadingAnimationWidgett();
           } else {
@@ -78,13 +77,12 @@ class WaitingOrderView extends StatelessWidget {
                             .waitingOrderModel!.data![index].from!,
                         to: wattingOrderCubitObject
                             .waitingOrderModel!.data![index].to!,
-                            
                         buttontext: 'الغاء الطلب',
                         isShownButton: true,
                         isCenterButton: true,
                         color: Colors.red,
                         onPressed: () {
-                          BlocProvider.of<DeletOrderCubit>(context)
+                          BlocProvider.of<DeleteOrderCubit>(context)
                               .deletOrder(
                                   token: token,
                                   orderID: wattingOrderCubitObject
@@ -94,9 +92,7 @@ class WaitingOrderView extends StatelessWidget {
                                 token: token);
                           });
                         },
-                        onTap: () {
-                          Navigator.pushNamed(context, OrderDetailsView.id);
-                        },
+                        onTap: () {},
                       ),
                   separatorBuilder: (context, index) => const Divider(
                         color: Colors.grey,

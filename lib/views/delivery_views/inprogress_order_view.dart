@@ -21,7 +21,6 @@ class InProgressOrderView extends StatelessWidget {
 
     var inProgressOrderCubitObject =
         BlocProvider.of<InProgressOrderCubit>(context);
-
     var availableOrderCubitObject =
         BlocProvider.of<AvailableOrderCubit>(context);
     return Scaffold(
@@ -67,7 +66,7 @@ class InProgressOrderView extends StatelessWidget {
                           title: inProgressOrderCubitObject
                               .inProgressOrderModel!.data![index].shipmentName!,
                           sender:
-                              'inProgressOrderCubitObject.inProgressOrderModel!.data![index].sender!                              .fName!',
+                              inProgressOrderCubitObject.inProgressOrderModel!.data![index].sender!.fName!,
                           orderCost: inProgressOrderCubitObject
                               .inProgressOrderModel!
                               .data![index]

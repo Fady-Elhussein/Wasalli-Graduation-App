@@ -61,7 +61,8 @@ class AvailableOrderView extends StatelessWidget {
                     itemBuilder: (context, index) => CardsWidget(
                       title: availableOrderCubitObject
                           .availableOrderModel!.data![index].shipmentName!,
-                      sender: 'availableOrderCubitObject.availableOrderModel!.data![index].sender!.fName!',
+                      sender: availableOrderCubitObject
+                          .availableOrderModel!.data![index].sender!.fName!,
                       orderCost: availableOrderCubitObject
                           .availableOrderModel!.data![index].shipmentPrice!,
                       deliveryCost: availableOrderCubitObject
@@ -86,7 +87,6 @@ class AvailableOrderView extends StatelessWidget {
                               .then((value) {
                             CacheHelper.saveData(
                                 key: 'hasOrderInProgress', value: true);
-
                             Navigator.pushReplacementNamed(
                                 context, InProgressOrderView.id,
                                 arguments: cacheToken);

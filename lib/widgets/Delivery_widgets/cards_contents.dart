@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wasili/const/const.dart';
 import 'package:wasili/cubit/delivery_cubits/inprogress_order/inprogress_order_state.dart';
-import 'package:wasili/cubit/sender_cubits/delet_order/cubit/delet_order_cubit.dart';
-import 'package:wasili/cubit/sender_cubits/delet_order/cubit/delet_order_state.dart';
+import 'package:wasili/cubit/sender_cubits/delete_order/cubit/delete_order_cubit.dart';
+import 'package:wasili/cubit/sender_cubits/delete_order/cubit/delete_order_state.dart';
 import 'package:wasili/widgets/Delivery_widgets/cards_button.dart';
 
 // ignore: must_be_immutable
@@ -38,7 +38,7 @@ class CardsContents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<DeletOrderCubit, DeletOrderStates>(
+    return BlocConsumer<DeleteOrderCubit, DeleteOrderStates>(
       listener: (context, state) {},
       builder: (context, state) {
         return Padding(
@@ -116,7 +116,7 @@ class CardsContents extends StatelessWidget {
               ),
               if (isShownButton == true)
                 isCenterButton == true
-                    ? state is DeletOrderLoadingState || state is PutOrderInProgressLoadingState
+                    ? state is DeleteOrderLoadingState || state is PutOrderInProgressLoadingState
                         ? const Center(
                             child: CircularProgressIndicator(
                               color: kPrimaryColor,

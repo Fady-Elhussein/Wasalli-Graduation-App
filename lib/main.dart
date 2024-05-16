@@ -10,7 +10,7 @@ import 'package:wasili/cubit/history_order/cubit/history_order_cubit.dart';
 import 'package:wasili/cubit/login/login_cubit.dart';
 import 'package:wasili/cubit/profile/cubit/profile_cubit.dart';
 import 'package:wasili/cubit/register/register_cubit.dart';
-import 'package:wasili/cubit/sender_cubits/delet_order/cubit/delet_order_cubit.dart';
+import 'package:wasili/cubit/sender_cubits/delete_order/cubit/delete_order_cubit.dart';
 import 'package:wasili/cubit/sender_cubits/inprogress_order/inprogress_order_cubit.dart';
 import 'package:wasili/cubit/sender_cubits/make_order/make_order_cubit.dart';
 import 'package:wasili/cubit/sender_cubits/sender_navigation_bar/sender_navigation_bar_cubit.dart';
@@ -87,7 +87,8 @@ class Wasalli extends StatelessWidget {
         BlocProvider(
           create: (context) => MakeOrderCubit(),
         ),
-        BlocProvider(          create: (context) => SenderNavigationBarCubit(),
+        BlocProvider(
+          create: (context) => SenderNavigationBarCubit(),
         ),
         BlocProvider(
           create: (context) => DeliveryNavigationBarCubit(),
@@ -114,7 +115,7 @@ class Wasalli extends StatelessWidget {
           create: (context) => HistoryOrderCubit(),
         ),
         BlocProvider(
-          create: (context) => DeletOrderCubit(),
+          create: (context) => DeleteOrderCubit(),
         ),
         BlocProvider(
           create: (context) => ProfileCubit(),
@@ -154,7 +155,8 @@ class Wasalli extends StatelessWidget {
           HistoryOrdersView.id: (context) => const HistoryOrdersView(),
           SenderLayoutView.id: (context) => const SenderLayoutView(),
           DeliveryLayoutView.id: (context) => const DeliveryLayoutView(),
-          SenderOrderDetailsView.id: (context) => SenderOrderDetailsView(),
+          SenderOrderDetailsView.id: (context) =>
+              const SenderOrderDetailsView(),
         },
         initialRoute: startView,
       ),

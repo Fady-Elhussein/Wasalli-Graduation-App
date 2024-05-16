@@ -3,30 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wasili/const/const.dart';
 import 'package:wasili/cubit/sender_cubits/inprogress_order/inprogress_order_cubit.dart';
 import 'package:wasili/cubit/sender_cubits/inprogress_order/inprogress_order_state.dart';
+import 'package:wasili/views/sender_views/sender_order_details.dart';
 import 'package:wasili/widgets/Sender_widgets/sender_cards.dart';
 import 'package:wasili/widgets/loading_animation_widget.dart';
 
 class InProgressOrdersView extends StatelessWidget {
-  const InProgressOrdersView({
-    super.key,
-    this.title,
-    this.delivery,
-    this.orderCost,
-    this.receiver,
-    this.receivingCost,
-    this.from,
-    this.to,
-  });
-
   static String id = 'InProgressOrdersView';
 
-  final String? title;
-  final String? delivery;
-  final int? orderCost;
-  final String? receiver;
-  final int? receivingCost;
-  final String? from;
-  final String? to;
+  const InProgressOrdersView({super.key});
+
   @override
   Widget build(BuildContext context) {
     final String token = ModalRoute.of(context)!.settings.arguments as String;
@@ -70,7 +55,7 @@ class InProgressOrdersView extends StatelessWidget {
       body: BlocConsumer<InprogressOrderCubit, InprogressOrderStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          if (state is InprogressOrderInitialState ||
+          if (inprogressOrderCubitObject.inProgressOrderModel == null &&
               state is InprogressOrderLoadingState) {
             return const Center(
               child: LoadingAnimationWidgett(),
@@ -100,7 +85,12 @@ class InProgressOrdersView extends StatelessWidget {
                             .inProgressOrderModel!.data![index].from!,
                         to: inprogressOrderCubitObject
                             .inProgressOrderModel!.data![index].to!,
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, SenderOrderDetailsView.id,
+                              arguments: inprogressOrderCubitObject
+                                  .inProgressOrderModel);
+                        },
                       ),
                   separatorBuilder: (context, index) => const Divider(
                         color: Colors.grey,

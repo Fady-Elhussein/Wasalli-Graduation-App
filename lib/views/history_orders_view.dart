@@ -16,7 +16,8 @@ class HistoryOrdersView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   String? cacheToken= CacheHelper.getData(key: 'token')??ModalRoute.of(context)!.settings.arguments as String;
+    String? cacheToken = CacheHelper.getData(key: 'token') ??
+        ModalRoute.of(context)!.settings.arguments as String;
 
     var historyOrderCubitObject = BlocProvider.of<HistoryOrderCubit>(context);
     historyOrderCubitObject.getAllHistoryOreder(token: cacheToken!);
@@ -49,7 +50,8 @@ class HistoryOrdersView extends StatelessWidget {
       body: BlocConsumer<HistoryOrderCubit, HistoryOrderStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          if (state is HistoryOrderLoadingState ) {
+          if (state is HistoryOrderLoadingState &&
+              historyOrderCubitObject.historyModel == null) {
             return const Center(
               child: LoadingAnimationWidgett(),
             );

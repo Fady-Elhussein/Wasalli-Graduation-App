@@ -28,7 +28,8 @@ class ProfileView extends StatelessWidget {
       body: BlocConsumer<ProfileCubit, ProfileStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          if (state is ProfileLoadingState) {
+          if (state is ProfileLoadingState &&
+              profileCubitObject.profileModel == null) {
             return const LoadingAnimationWidgett();
           } else {
             return Padding(
@@ -128,7 +129,8 @@ class ProfileView extends StatelessWidget {
                       ),
                       Expanded(
                         child: CardsButton(
-                          text: 'تحديث بياناتي',                          onPressed: () {
+                          text: 'تحديث بياناتي',
+                          onPressed: () {
                             Navigator.pushNamed(context, ModifiedAccountView.id,
                                 arguments: profileCubitObject.profileModel);
                           },
