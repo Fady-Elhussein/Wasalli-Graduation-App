@@ -4,6 +4,7 @@ import 'package:wasili/const/const.dart';
 import 'package:wasili/cubit/sender_cubits/delete_order/cubit/delete_order_cubit.dart';
 import 'package:wasili/cubit/sender_cubits/watting_order/watting_order_cubit.dart';
 import 'package:wasili/cubit/sender_cubits/watting_order/watting_order_state.dart';
+import 'package:wasili/services/local/cache_helper.dart';
 import 'package:wasili/widgets/Delivery_widgets/cards.dart';
 import 'package:wasili/widgets/loading_animation_widget.dart';
 
@@ -14,20 +15,19 @@ class WaitingOrderView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String token = ModalRoute.of(context)!.settings.arguments as String;
-
+    String? cacheToken = CacheHelper.getData(key: 'token') ??
+        ModalRoute.of(context)!.settings.arguments as String;
     var wattingOrderCubitObject = BlocProvider.of<WattingOrderCubit>(context);
-    wattingOrderCubitObject.getAllWattingOrder(token: token);
+    wattingOrderCubitObject.getAllWattingOrder(token: cacheToken!);
     return Scaffold(
       appBar: AppBar(
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(Icons.refresh),
-              onPressed: () {
-                wattingOrderCubitObject.getAllWattingOrder(token: token);
-              },
-            );
+        leading: IconButton(
+          padding: const EdgeInsets.only(right: 10),
+          icon: const Icon(Icons.arrow_back_ios),
+          color: kPrimaryColor,
+          iconSize: 25.0,
+          onPressed: () {
+            Navigator.pop(context);
           },
         ),
         iconTheme: const IconThemeData(color: kPrimaryColor),
@@ -40,13 +40,14 @@ class WaitingOrderView extends StatelessWidget {
         ),
         centerTitle: true,
         actions: [
-          IconButton(
-            padding: const EdgeInsets.only(right: 10),
-            icon: const Icon(Icons.arrow_forward_ios),
-            color: kPrimaryColor,
-            iconSize: 25.0,
-            onPressed: () {
-              Navigator.pop(context);
+          Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(Icons.refresh),
+                onPressed: () {
+                  wattingOrderCubitObject.getAllWattingOrder(token: cacheToken);
+                },
+              );
             },
           ),
         ],
@@ -84,12 +85,12 @@ class WaitingOrderView extends StatelessWidget {
                         onPressed: () {
                           BlocProvider.of<DeleteOrderCubit>(context)
                               .deletOrder(
-                                  token: token,
+                                  token: cacheToken,
                                   orderID: wattingOrderCubitObject
                                       .waitingOrderModel!.data![index].orderId!)
                               .then((value) {
                             wattingOrderCubitObject.getAllWattingOrder(
-                                token: token);
+                                token: cacheToken);
                           });
                         },
                         onTap: () {},

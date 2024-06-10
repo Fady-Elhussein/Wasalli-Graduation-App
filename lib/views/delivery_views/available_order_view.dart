@@ -18,7 +18,6 @@ class AvailableOrderView extends StatelessWidget {
   Widget build(BuildContext context) {
     String? cacheToken = CacheHelper.getData(key: 'token') ??
         ModalRoute.of(context)!.settings.arguments as String;
-
     BlocProvider.of<AvailableOrderCubit>(context)
         .getAllAvailableOrder(token: cacheToken!);
     return BlocConsumer<AvailableOrderCubit, AvailableOrderStates>(
@@ -86,10 +85,14 @@ class AvailableOrderView extends StatelessWidget {
                               .getAllOrderInProgressOrder(token: cacheToken)
                               .then((value) {
                             CacheHelper.saveData(
-                                key: 'hasOrderInProgress', value: true);
+                              key: 'hasOrderInProgress',
+                              value: true,
+                            );
                             Navigator.pushReplacementNamed(
-                                context, InProgressOrderView.id,
-                                arguments: cacheToken);
+                              context,
+                              InProgressOrderView.id,
+                              arguments: cacheToken,
+                            );
                           });
                         });
                       },

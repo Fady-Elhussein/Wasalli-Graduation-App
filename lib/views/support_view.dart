@@ -19,7 +19,6 @@ class SupportView extends StatelessWidget {
   Widget build(BuildContext context) {
     String? cacheToken = CacheHelper.getData(key: 'token') ??
         ModalRoute.of(context)!.settings.arguments as String;
-
     return Scaffold(
       appBar: appBar(title: 'الشكاوي و المقترحات'),
       body: BlocConsumer<SupportCubit, SupportStates>(

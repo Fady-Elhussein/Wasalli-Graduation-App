@@ -28,6 +28,8 @@ class MakeOrderCubit extends Cubit<MakeOrderStates> {
         recipientPhoneNumber: recipientPhoneNumber,
         deliveryCost: deliveryCost,
         token: token,
+        alternateSenderPhoneNumber: alternateSenderPhoneNumber,
+        comment: comment,
       )
           .then(
         (value) {

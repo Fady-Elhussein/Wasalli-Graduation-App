@@ -6,7 +6,7 @@ import 'package:wasili/cubit/delivery_cubits/delivered_order/delivered_order_cub
 import 'package:wasili/cubit/delivery_cubits/inprogress_order/inprogress_order_cubit.dart';
 import 'package:wasili/services/local/cache_helper.dart';
 import 'package:wasili/views/delivery_views/delivery_layout.dart';
-import 'package:wasili/views/delivery_views/order_details_view.dart';
+import 'package:wasili/views/delivery_views/delviery_order_details_view.dart';
 import 'package:wasili/widgets/Delivery_widgets/cards.dart';
 import 'package:wasili/widgets/loading_animation_widget.dart';
 
@@ -18,7 +18,6 @@ class InProgressOrderView extends StatelessWidget {
   Widget build(BuildContext context) {
     String? cacheToken = CacheHelper.getData(key: 'token') ??
         ModalRoute.of(context)!.settings.arguments as String;
-
     var inProgressOrderCubitObject =
         BlocProvider.of<InProgressOrderCubit>(context);
     var availableOrderCubitObject =
@@ -65,8 +64,11 @@ class InProgressOrderView extends StatelessWidget {
                         itemBuilder: (context, index) => CardsWidget(
                           title: inProgressOrderCubitObject
                               .inProgressOrderModel!.data![index].shipmentName!,
-                          sender:
-                              inProgressOrderCubitObject.inProgressOrderModel!.data![index].sender!.fName!,
+                          sender: inProgressOrderCubitObject
+                              .inProgressOrderModel!
+                              .data![index]
+                              .sender!
+                              .fName!,
                           orderCost: inProgressOrderCubitObject
                               .inProgressOrderModel!
                               .data![index]

@@ -6,8 +6,8 @@ import 'package:wasili/cubit/sender_cubits/make_order/make_order_cubit.dart';
 import 'package:wasili/cubit/sender_cubits/make_order/make_order_states.dart';
 import 'package:wasili/helper/show_toast.dart';
 import 'package:wasili/services/local/cache_helper.dart';
+import 'package:wasili/widgets/Delivery_widgets/cards_button.dart';
 import 'package:wasili/widgets/app_bar_widget.dart';
-import 'package:wasili/widgets/main_widgets/bottom_sheet.dart';
 import 'package:wasili/widgets/main_widgets/custom_button.dart';
 import 'package:wasili/widgets/main_widgets/custom_text_form_field.dart';
 
@@ -19,7 +19,8 @@ class MakeOrderView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   String? cacheToken= CacheHelper.getData(key: 'token')??ModalRoute.of(context)!.settings.arguments as String;
+    String? cacheToken = CacheHelper.getData(key: 'token') ??
+        ModalRoute.of(context)!.settings.arguments as String;
 
     GlobalKey<FormState> formkey = GlobalKey<FormState>();
     TextEditingController shipmentNamecontroller = TextEditingController();
@@ -30,12 +31,12 @@ class MakeOrderView extends StatelessWidget {
 
     TextEditingController recipientPhoneNumberController =
         TextEditingController();
+    TextEditingController alternateSenderPhoneNumbercontroller =
+        TextEditingController();
+    TextEditingController commentcontroller = TextEditingController();
 
     return Scaffold(
-      appBar:
-      appBar(title: 'انشاء طلب'),
-      
-    
+      appBar: appBar(title: 'انشاء طلب'),
       body: BlocConsumer<MakeOrderCubit, MakeOrderStates>(
         listener: (context, state) {
           if (state is MakeOrderSuccessState) {
@@ -165,9 +166,67 @@ class MakeOrderView extends StatelessWidget {
                           isIcon: true,
                           onPressed: () {
                             showModalBottomSheet(
+                              isScrollControlled: true,
                               context: context,
                               builder: (BuildContext context) {
-                                return BottomSheetWidget();
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context)
+                                        .viewInsets
+                                        .bottom, // to make keyboard appear above the form
+                                    left: 16,
+                                    right: 16,
+                                    top: 40,
+                                  ),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        const SizedBox(height: 10),
+                                        CustomTextFormField(
+                                          keyboardType: TextInputType.phone,
+                                          readOnly: false,
+                                          controller:
+                                              alternateSenderPhoneNumbercontroller,
+                                          text: 'اضافة رقم هاتف اخر',
+                                          contentPadding: 15,
+                                          suffixIcon: IconButton(
+                                            onPressed: () {},
+                                            icon: const Icon(
+                                                Icons.mobile_friendly),
+                                          ),
+                                          color: kPrimaryColor,
+                                        ),
+                                        const SizedBox(height: 20),
+                                        CustomTextFormField(
+                                          keyboardType: TextInputType.text,
+                                          readOnly: false,
+                                          controller: commentcontroller,
+                                          text: 'اضافة تعليق',
+                                          contentPadding: 15,
+                                          suffixIcon: IconButton(
+                                              onPressed: () {},
+                                              icon: const Icon(Icons.comment)),
+                                          color: kPrimaryColor,
+                                        ),
+                                        const SizedBox(height: 30),
+                                        CardsButton(
+                                          text: 'تأكيد',
+                                          onPressed: () {
+                                            showToast(
+                                                color: Colors.green,
+                                                msg: 'تم اضافة تعليقك بنجاح');
+                                            Navigator.pop(context);
+                                          },
+                                          height: 37,
+                                          width: 100,
+                                          color: kPrimaryColor,
+                                          borderRadius: 20,
+                                        ),
+                                        const SizedBox(height: 30),
+                                      ],
+                                    ),
+                                  ),
+                                );
                               },
                             );
                           },
@@ -203,6 +262,9 @@ class MakeOrderView extends StatelessWidget {
                                   recipientPhoneNumber:
                                       recipientPhoneNumberController.text,
                                   token: cacheToken!,
+                                  alternateSenderPhoneNumber:
+                                      alternateSenderPhoneNumbercontroller.text,
+                                  comment: commentcontroller.text,
                                 )
                                     .then(
                                   (value) {
@@ -218,7 +280,7 @@ class MakeOrderView extends StatelessWidget {
                                     }
                                   },
                                 );
-                              } else {}
+                              }
                             },
                             width: 280,
                           ),

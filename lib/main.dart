@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:wasili/cubit/bloc_observer.dart';
@@ -19,10 +20,12 @@ import 'package:wasili/cubit/support/support_cubit.dart';
 import 'package:wasili/cubit/update_profile/cubit/update_profile_cubit.dart';
 import 'package:wasili/services/local/cache_helper.dart';
 import 'package:wasili/views/delivery_views/available_order_view.dart';
+import 'package:wasili/views/delivery_views/history_delivery_orders_details_view.dart';
+import 'package:wasili/views/history_orders_view.dart';
 import 'package:wasili/views/delivery_views/inprogress_order_view.dart';
 import 'package:wasili/views/delivery_views/delivery_layout.dart';
-import 'package:wasili/views/delivery_views/order_details_view.dart';
-import 'package:wasili/views/history_orders_view.dart';
+import 'package:wasili/views/delivery_views/delviery_order_details_view.dart';
+import 'package:wasili/views/sender_views/history_sender_order_detils_view.dart';
 import 'package:wasili/views/profile_view.dart';
 import 'package:wasili/views/sender_views/orders_view.dart';
 import 'package:wasili/views/sender_views/sender_layout.dart';
@@ -35,7 +38,6 @@ import 'package:wasili/views/modified_account_view.dart';
 import 'package:wasili/views/on_boarding_view.dart';
 import 'package:wasili/views/register_view.dart';
 import 'package:wasili/views/sender_views/make_order_view.dart';
-import 'package:wasili/views/splash_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,6 +48,7 @@ void main() async {
   bool hasOrderInProgress =
       CacheHelper.getData(key: 'hasOrderInProgress') ?? false;
   print("Role : $role");
+  print("boardingShown : $boardingShown");
   print("token: $token");
   String startView;
   if (boardingShown == true) {
@@ -69,6 +72,8 @@ void main() async {
     startView: startView,
   ));
 }
+
+
 
 class Wasalli extends StatelessWidget {
   const Wasalli({super.key, required this.startView});
@@ -129,6 +134,13 @@ class Wasalli extends StatelessWidget {
         supportedLocales: const [
           Locale('ar'),
         ],
+        theme: ThemeData(
+          appBarTheme: const AppBarTheme(
+              systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarIconBrightness: Brightness.dark,
+            statusBarColor: Colors.transparent,
+          )),
+        ),
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
@@ -136,12 +148,10 @@ class Wasalli extends StatelessWidget {
         ],
         title: 'Wasalli - وصلّي',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(),
         routes: {
           LoginView.id: (context) => LoginView(),
           RegisterView.id: (context) => RegisterView(),
           OnBoardingView.id: (context) => const OnBoardingView(),
-          SplashView.id: (context) => const SplashView(),
           AvailableOrderView.id: (context) => const AvailableOrderView(),
           MakeOrderView.id: (context) => const MakeOrderView(),
           OrderDetailsView.id: (context) => const OrderDetailsView(),
@@ -157,6 +167,10 @@ class Wasalli extends StatelessWidget {
           DeliveryLayoutView.id: (context) => const DeliveryLayoutView(),
           SenderOrderDetailsView.id: (context) =>
               const SenderOrderDetailsView(),
+          HistoryDeliveryOrderDetailsView.id: (context) =>
+              const HistoryDeliveryOrderDetailsView(),
+          HistorySenderOrderDetailsView.id: (context) =>
+              const HistorySenderOrderDetailsView(),
         },
         initialRoute: startView,
       ),

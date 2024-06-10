@@ -20,7 +20,7 @@ class HistoryOrderCubit extends Cubit<HistoryOrderStates> {
         },
       ).catchError((error) {
         print(error);
-        emit(HistoryOrderSuccessState());
+        emit(HistoryOrderFailedState());
         throw (error);
       });
     } on Exception catch (e) {

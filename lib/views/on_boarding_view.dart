@@ -23,60 +23,63 @@ class OnBoardingView extends StatelessWidget {
       });
     }
 
-    return Scaffold(
-      backgroundColor: kPrimaryColor,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        actions: [
-          TextButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) => CupertinoAlertDialog(
-                  title: const Text(
-                    'هل تريد التخطي ؟',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        backgroundColor: kPrimaryColor,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          actions: [
+            TextButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => CupertinoAlertDialog(
+                    title: const Text(
+                      'هل تريد التخطي ؟',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                      ),
                     ),
-                  ),
-                  actions: [
-                    TextButton(
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            skipOnBoarding();
+                          },
+                          child: const Text(
+                            'نعم',
+                            style: TextStyle(
+                              color: kPrimaryColor,
+                              fontSize: 18,
+                            ),
+                          )),
+                      TextButton(
                         onPressed: () {
-                          skipOnBoarding();
+                          Navigator.pop(context);
                         },
                         child: const Text(
-                          'نعم',
+                          'لا',
                           style: TextStyle(
                             color: kPrimaryColor,
                             fontSize: 18,
                           ),
-                        )),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text(
-                        'لا',
-                        style: TextStyle(
-                          color: kPrimaryColor,
-                          fontSize: 18,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            },
-            child: const Text(
-              "تخطي",
-              style: TextStyle(color: kSecanderyColor),
+                    ],
+                  ),
+                );
+              },
+              child: const Text(
+                "تخطي",
+                style: TextStyle(color: kSecanderyColor),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
+        body: const CustomSmoothPageIndicator(),
       ),
-      body: const CustomSmoothPageIndicator(),
     );
   }
 }

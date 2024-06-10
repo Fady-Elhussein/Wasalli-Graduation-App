@@ -24,6 +24,7 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Image.asset(
@@ -41,12 +42,13 @@ class LoginView extends StatelessWidget {
               if (state.loginModel.user!.role == 'Sender') {
                 CacheHelper.saveData(key: 'role', value: 'Sender');
                 Navigator.pushNamedAndRemoveUntil(
-                    context, SenderLayoutView.id, (route) => false,
+                  context, SenderLayoutView.id, (route) => false,
                     arguments: state.loginModel.token);
               } else {
                 Navigator.pushNamedAndRemoveUntil(
-                    context, DeliveryLayoutView.id, (route) => false,
-                    arguments: state.loginModel.token);
+                 context, DeliveryLayoutView.id, (route) => false,
+                    arguments: state.loginModel.token
+                );
                 CacheHelper.saveData(key: 'role', value: 'Delivery');
               }
             } else {

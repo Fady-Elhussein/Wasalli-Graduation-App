@@ -13,7 +13,6 @@ class OrdersView extends StatelessWidget {
   Widget build(BuildContext context) {
     String? cacheToken = CacheHelper.getData(key: 'token') ??
         ModalRoute.of(context)!.settings.arguments as String;
-
     return Scaffold(
       appBar: appBar(title: 'الطلبات'),
       body: Padding(

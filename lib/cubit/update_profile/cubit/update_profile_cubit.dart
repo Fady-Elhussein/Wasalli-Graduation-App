@@ -16,16 +16,17 @@ class UpdateProfileCubit extends Cubit<UpdateProfileStates> {
       emit(UpdateProfileLoadingState());
       await UpdateProfileServices()
           .updateProfile(
-              token: token,
-              fName: fName,
-              lName: lName,
-              phoneNumber: phoneNumber,
-              address: address)
+        token: token,
+        fName: fName,
+        lName: lName,
+        phoneNumber: phoneNumber,
+        address: address,
+      )
           .then(
         (value) {
           print(value);
 
-          emit(UpdateProfileLoadingState());
+          emit(UpdateProfileSuccessState());
         },
       ).catchError((error) {
         emit(UpdateProfileFailedState());

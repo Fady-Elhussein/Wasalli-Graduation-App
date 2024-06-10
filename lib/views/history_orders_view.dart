@@ -4,6 +4,8 @@ import 'package:wasili/const/const.dart';
 import 'package:wasili/cubit/history_order/cubit/history_order_cubit.dart';
 import 'package:wasili/cubit/history_order/cubit/history_order_state.dart';
 import 'package:wasili/services/local/cache_helper.dart';
+import 'package:wasili/views/delivery_views/history_delivery_orders_details_view.dart';
+import 'package:wasili/views/sender_views/history_sender_order_detils_view.dart';
 import 'package:wasili/widgets/Delivery_widgets/cards.dart';
 import 'package:wasili/widgets/loading_animation_widget.dart';
 
@@ -18,7 +20,6 @@ class HistoryOrdersView extends StatelessWidget {
   Widget build(BuildContext context) {
     String? cacheToken = CacheHelper.getData(key: 'token') ??
         ModalRoute.of(context)!.settings.arguments as String;
-
     var historyOrderCubitObject = BlocProvider.of<HistoryOrderCubit>(context);
     historyOrderCubitObject.getAllHistoryOreder(token: cacheToken!);
     return Scaffold(
@@ -32,20 +33,16 @@ class HistoryOrdersView extends StatelessWidget {
           color: kPrimaryColor,
           fontSize: 30,
         ),
-        actions: [
-          Directionality(
-            textDirection: TextDirection.rtl,
-            child: IconButton(
-              padding: const EdgeInsets.only(right: 10),
-              icon: const Icon(Icons.arrow_forward_ios),
-              color: kPrimaryColor,
-              iconSize: 25.0,
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
-        ],
+        centerTitle: true,
+        leading: IconButton(
+          padding: const EdgeInsets.only(right: 10),
+          icon: const Icon(Icons.arrow_back_ios),
+          color: kPrimaryColor,
+          iconSize: 25.0,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: BlocConsumer<HistoryOrderCubit, HistoryOrderStates>(
         listener: (context, state) {},
@@ -73,6 +70,18 @@ class HistoryOrdersView extends StatelessWidget {
                           .historyModel!.data![index].from!,
                       to: historyOrderCubitObject
                           .historyModel!.data![index].to!,
+                      onTap: () {
+                        String role = CacheHelper.getData(key: 'role');
+                        if (role == 'Sender') {
+                          Navigator.pushNamed(
+                              context, HistorySenderOrderDetailsView.id,
+                              arguments: index);
+                        } else {
+                          Navigator.pushNamed(
+                              context, HistoryDeliveryOrderDetailsView.id,
+                              arguments: index);
+                        }
+                      },
                     );
                   },
                   separatorBuilder: (context, index) => const Divider(

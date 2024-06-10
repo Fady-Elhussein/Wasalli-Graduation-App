@@ -9,6 +9,7 @@ class HistoryServices {
     try {
       Response response = await dio.get(
         getHistoryEndPoint,
+        queryParameters: {'status':'Delivered'},
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',

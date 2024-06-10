@@ -33,25 +33,24 @@ class ModifiedAccountView extends StatelessWidget {
         iconTheme: const IconThemeData(color: kPrimaryColor),
         backgroundColor: Colors.transparent,
         elevation: 0,
+        centerTitle: true,
         title: const Text("حسابي"),
         titleTextStyle: const TextStyle(
           color: kPrimaryColor,
           fontSize: 30,
         ),
-        actions: [
-          Directionality(
-            textDirection: TextDirection.rtl,
-            child: IconButton(
-              padding: const EdgeInsets.only(right: 10),
-              icon: const Icon(Icons.arrow_forward_ios),
-              color: kPrimaryColor,
-              iconSize: 25.0,
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
+        leading: Directionality(
+          textDirection: TextDirection.rtl,
+          child: IconButton(
+            padding: const EdgeInsets.only(right: 10),
+            icon: const Icon(Icons.arrow_back_ios),
+            color: kPrimaryColor,
+            iconSize: 25.0,
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
-        ],
+        ),
       ),
       body: BlocConsumer<UpdateProfileCubit, UpdateProfileStates>(
         listener: (context, state) {},
@@ -107,6 +106,7 @@ class ModifiedAccountView extends StatelessWidget {
                   keyboardType: TextInputType.name,
                   readOnly: false,
                   text: 'رقم الهاتف: ${profileCubitObject.user!.phoneNumber}',
+                  maxLength: 11,
                   controller: phoneController,
                   colorCards: kPrimaryColorCards,
                 ),
@@ -140,18 +140,26 @@ class ModifiedAccountView extends StatelessWidget {
                         child: CardsButton(
                           text: 'حفظ التغيرات',
                           onPressed: () {
+                            String fName = fnameController!.text.isEmpty
+                                ? profileCubitObject.user!.fName!
+                                : fnameController!.text;
+                            String lName = lNameController!.text.isEmpty
+                                ? profileCubitObject.user!.lName!
+                                : lNameController!.text;
+                            String phoneNumber = phoneController!.text.isEmpty
+                                ? profileCubitObject.user!.phoneNumber!
+                                : phoneController!.text;
+                            String address = addressController!.text.isEmpty
+                                ? profileCubitObject.user!.address!
+                                : addressController!.text;
+
                             BlocProvider.of<UpdateProfileCubit>(context)
                                 .updateProfile(
                               token: cacheToken!,
-                              fName: fnameController?.text ??
-                                  profileCubitObject.user!.fName!,
-                              lName: lNameController?.text ??
-                                  profileCubitObject.user!.lName!,
-                              
-                              phoneNumber: phoneController?.text ??
-                                  profileCubitObject.user!.phoneNumber!,
-                              address: addressController?.text ??
-                                  profileCubitObject.user!.address!,
+                              fName: fName,
+                              lName: lName,
+                              phoneNumber: phoneNumber,
+                              address: address,
                             )
                                 .then((value) {
                               Navigator.pop(context);

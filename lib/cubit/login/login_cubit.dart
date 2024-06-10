@@ -21,8 +21,9 @@ class LoginCubit extends Cubit<LoginStates> {
           emit(LoginSucessState(loginModel: loginModel!));
         },
       ).catchError((error) {
+        print(error);
+
         emit(LoginFailState());
-          print(error);
 
         throw (error);
       });
@@ -40,7 +41,7 @@ class LoginCubit extends Cubit<LoginStates> {
   // getProfileData({required String token}) async {
   //   try {
   //     await ProfileServices().getProfileData(token: token).then(
-  //       (value) {         
+  //       (value) {
   //         emit(ProfileSuccesState());
   //       },
   //     ).catchError(

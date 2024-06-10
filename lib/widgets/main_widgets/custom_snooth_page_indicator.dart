@@ -76,44 +76,47 @@ class _CustomSmoothPageIndicatorState extends State<CustomSmoothPageIndicator> {
         ),
         Padding(
           padding: const EdgeInsets.all(18.0),
-          child: Row(
-            children: [
-              SmoothPageIndicator(
-                controller: boardController,
-                count: boardingList.length,
-                effect: const WormEffect(
-                  dotColor: Colors.grey,
-                  activeDotColor: kSecanderyColor,
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: Row(
+              children: [
+                SmoothPageIndicator(
+                  controller: boardController,
+                  count: boardingList.length,
+                  effect: const WormEffect(
+                    dotColor: Colors.grey,
+                    activeDotColor: kSecanderyColor,
+                  ),
                 ),
-              ),
-              const Spacer(),
-              isLast
-                  ? TextButton(
-                      onPressed: () {
-                        skipOnBoarding();
-                      },
-                      child: const Text(
-                        "يلا بينا ",
-                        style: TextStyle(
-                          color: kSecanderyColor,
-                          fontSize: 24,
+                const Spacer(),
+                isLast
+                    ? TextButton(
+                        onPressed: () {
+                          skipOnBoarding();
+                        },
+                        child: const Text(
+                          " أبدأ",
+                          style: TextStyle(
+                            color: kSecanderyColor,
+                            fontSize: 24,
+                          ),
+                        ),
+                      )
+                    : FloatingActionButton(
+                        backgroundColor: Colors.white,
+                        onPressed: () {
+                          boardController.nextPage(
+                            duration: const Duration(milliseconds: 800),
+                            curve: Curves.decelerate,
+                          );
+                        },
+                        child: const Icon(
+                          Icons.arrow_right_alt,
+                          color: kPrimaryColor,
                         ),
                       ),
-                    )
-                  : FloatingActionButton(
-                      backgroundColor: Colors.white,
-                      onPressed: () {
-                        boardController.nextPage(
-                          duration: const Duration(milliseconds: 800),
-                          curve: Curves.decelerate,
-                        );
-                      },
-                      child: const Icon(
-                        Icons.arrow_right_alt,
-                        color: kPrimaryColor,
-                      ),
-                    ),
-            ],
+              ],
+            ),
           ),
         )
       ],
